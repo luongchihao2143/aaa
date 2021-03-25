@@ -13,7 +13,7 @@ public class DBQuestion {
     public DBQuestion(Context context, ArrayList<Question> list){
         this.context = context;
         this.list = list;
-        fâffaffff
+        fâffaffff;
     }
 
     
