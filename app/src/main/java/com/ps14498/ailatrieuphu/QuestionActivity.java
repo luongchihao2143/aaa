@@ -1,5 +1,6 @@
 package com.ps14498.ailatrieuphu;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -14,9 +15,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.ps14498.ailatrieuphu.Database.DBQuestion;
 import com.ps14498.ailatrieuphu.Model.Question;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 public class QuestionActivity extends AppCompatActivity {
@@ -25,16 +33,20 @@ public class QuestionActivity extends AppCompatActivity {
     ArrayList<Question> list;
     int idcauhoi = 1;
     Random random;
+    DatabaseReference mData;
+    String []question = {"Question","Question2", "Question3"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         anhxa();
+        themdulieufirebase();
         doidulieulist();
         random = new Random();
-        int stt =  random.nextInt(list.size());
-        daydulieu(list.get(stt));
-        Log.d("stt", stt+"");
+//        int stt =  random.nextInt(list.size());
+        daydulieu(list.get(0));
+//        Log.d("stt", stt+"");
+
     }
 
     public void anhxa(){
@@ -48,13 +60,43 @@ public class QuestionActivity extends AppCompatActivity {
 
     public void doidulieulist(){
         list = new ArrayList<>();
-        list.add(new Question(0, "Hà Nội là thủ đô của nước nào? ", "Mỹ", "Campuchia", "Việt Nam", "Thái Lan", "Việt Nam"));
-        list.add(new Question(1, "Đâu là gia cầm? ", "Heo", "Gà", "Khỉ", "Người", "Gà"));
+
         list.add(new Question(2, "TP.Hồ Chí Minh ở miền nào Việt Nam", "Bắc", "Trung", "Nam", "Không có đáp án", "Nam"));
+
+        for(int i=0;i<question.length;i++) {
+            mData = FirebaseDatabase.getInstance().getReference(question[i]);
+            mData.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists())
+                    {
+                        Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+                        String cauhoi = (String) map.get("noidung");
+                        int id = Integer.parseInt(String.valueOf(map.get("id")));
+                        String ans = (String) map.get("ans");
+                        String a = (String) map.get("a");
+                        String b = (String) map.get("b");
+                        String c = (String) map.get("c");
+                        String d = (String) map.get("d");
+                        list.add(new Question(id, cauhoi, a, b, c, d, ans));
+                    }
+                    else Toast.makeText(QuestionActivity.this, "Không có câu hỏi để hiện", Toast.LENGTH_SHORT).show();
+
+
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
     }
 
     public void daydulieu(Question question){
         if (question==null) return;
+
         tvstt.setText("Câu số: "+idcauhoi);
         tvcauhoi.setText(question.getCauhoi()+"");
         btna.setText(question.getA()+"");
@@ -171,5 +213,11 @@ public class QuestionActivity extends AppCompatActivity {
         i.putExtra("ten", ten+"");
         Log.d("Số câu hiện tại", diem+"");
         startActivity(i);
+    }
+
+    public void themdulieufirebase(){
+        mData = FirebaseDatabase.getInstance().getReference();
+        mData.child("Question2").setValue(new Question(2, "Chọn B", "a", "b", "c", "d", "b"));
+        mData.child("Question3").setValue(new Question(3, "Chọn C", "a", "b", "c", "d", "c"));
     }
 }
