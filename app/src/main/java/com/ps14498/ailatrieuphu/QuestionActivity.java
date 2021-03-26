@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +31,12 @@ public class QuestionActivity extends AppCompatActivity {
     Button btna, btnb, btnc, btnd, btntieptuc, btnchoilai;
     TextView tvstt, tvcauhoi, tvdapan;
     ArrayList<Question> list;
-    int idcauhoi = 1;
+    int idcauhoi = 0;
     Random random;
     DatabaseReference mData;
-    String []question = {"Question","Question2", "Question3"};
+    String []question = {"Question","Question2", "Question3", "Question4"};
+    Button btnxn;
+    ImageView ivchucdanh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +46,15 @@ public class QuestionActivity extends AppCompatActivity {
         doidulieulist();
         random = new Random();
 //        int stt =  random.nextInt(list.size());
-        daydulieu(list.get(0));
+        daydulieu(list.get(idcauhoi));
 //        Log.d("stt", stt+"");
+
+        ivchucdanh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+            }
+        });
 
     }
 
@@ -55,6 +65,7 @@ public class QuestionActivity extends AppCompatActivity {
         btnd = findViewById(R.id.btnD);
         tvcauhoi = findViewById(R.id.tvcauhoi);
         tvstt = findViewById(R.id.tvstt);
+        ivchucdanh = findViewById(R.id.ivchucdanh);
     }
 
     public void doidulieulist(){
@@ -95,8 +106,8 @@ public class QuestionActivity extends AppCompatActivity {
 
     public void daydulieu(Question question){
         if (question==null) return;
-
-        tvstt.setText("Câu số: "+idcauhoi);
+        int socau = idcauhoi+1;
+        tvstt.setText("Câu số: "+socau);
         tvcauhoi.setText(question.getCauhoi()+"");
         btna.setText(question.getA()+"");
         btnb.setText(question.getB()+"");
@@ -169,7 +180,8 @@ public class QuestionActivity extends AppCompatActivity {
             btntieptuc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (idcauhoi>list.size())
+                    Log.d("list sai", list.size()+"");
+                    if (idcauhoi>=list.size())
                     {
                         ketqua(questions);
                     }
@@ -177,7 +189,7 @@ public class QuestionActivity extends AppCompatActivity {
                         random = new Random();
                         int stt2 = random.nextInt(list.size());
                         Log.d("stt2", stt2+"");
-                        daydulieu(list.get(stt2));
+                        daydulieu(list.get(idcauhoi));
                     }
                     dialog.dismiss();
                 }
@@ -207,7 +219,7 @@ public class QuestionActivity extends AppCompatActivity {
         Toast.makeText(QuestionActivity.this, list.size()+"", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(QuestionActivity.this, KetQuaActitivy.class);
         Log.d("số câu hỏi", idcauhoi+"");
-        int diem = (idcauhoi-1)*10;
+        int diem = (idcauhoi)*10;
         i.putExtra("diem", diem+"");
         i.putExtra("ten", ten+"");
         Log.d("Số câu hiện tại", diem+"");
@@ -217,12 +229,26 @@ public class QuestionActivity extends AppCompatActivity {
     public void themdulieufirebase(){
         mData = FirebaseDatabase.getInstance().getReference();
         Question question = new Question(2, "1MB(Mega byte) bằng:", "1024GB", "1024KB", "1000KB", "1000B","1024KB");
-        mData.child("Câu hỏi").push().setValue(question);
+        mData.child("Question2").setValue(question);
 
         question = new Question(3, "Để cài đặt thêm các bộ Font trong môi trường windows, ta dùng chức năng: ", "Destop của Control Panel", "Regional Setting của Control Panel", "System của Control Panel", "Font  của Control Panel","Font  của Control Panel");
-        mData.child("Câu hỏi").push().setValue(question);
+        mData.child("Question3").setValue(question);
 
         question = new Question(4, "Có thể hồi phục (restore) các tập tin bị xoá sau khi nhấn phím Delete bằng cách: ", "Mở Recycle Bin", "Mở Internet Explorer", "Mở My Computer", "Mở My Documents","Mở Recycle Bin");
-        mData.child("Câu hỏi").push().setValue(question);
+        mData.child("Question4").setValue(question);
+
     }
+
+        public void openDialog(){
+            Dialog dialog = new Dialog(QuestionActivity.this);
+            dialog.setContentView(R.layout.dialog_bangdiem);
+            btnxn = dialog.findViewById(R.id.btnok);
+            btnxn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }
 }

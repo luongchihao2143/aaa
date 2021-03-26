@@ -10,8 +10,9 @@
     tools:context=".MainActivity">
 
     <ImageView
+        android:id="@+id/ivchucdanh"
         android:layout_marginTop="100dp"
-        android:src="@drawable/game"
+        android:src="@drawable/coin"
         android:layout_alignParentTop="true"
         android:layout_width="250dp"
         android:layout_height="250dp"/>

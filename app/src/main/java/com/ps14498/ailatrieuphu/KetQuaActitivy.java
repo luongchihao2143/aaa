@@ -44,7 +44,7 @@ public class KetQuaActitivy extends AppCompatActivity {
     public void laydulieu(){
         Intent i = getIntent();
         String diem = i.getStringExtra("diem");
-        Toast.makeText(this, diem, Toast.LENGTH_SHORT).show();
+        Log.d("point", diem);
         tvdiem.setText(diem+" điểm");
         String ten = i.getStringExtra("ten");
         Log.d("ten2", ten+"");
@@ -56,9 +56,9 @@ public class KetQuaActitivy extends AppCompatActivity {
         }
         else if (Integer.parseInt(diem)<=20) chucdanh = "Học sinh cấp 2";
         else if (Integer.parseInt(diem)<=30) chucdanh = "Học sinh cấp 3";
-        tvchucdanh.setText(chucdanh.toString());
-        listuser = new ArrayList<>();
-        listuser.add(new User(ten, chucdanh, Integer.parseInt(diem)));
+//        tvchucdanh.setText(chucdanh.toString());
+//        listuser = new ArrayList<>();
+//        listuser.add(new User(ten, chucdanh, Integer.parseInt(diem)));
 
     }
 }

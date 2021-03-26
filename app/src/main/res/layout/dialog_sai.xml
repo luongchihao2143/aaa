@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     android:orientation="vertical"
+    android:background="@drawable/backgrounddialog"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="350dp"
     android:layout_height="wrap_content">
 
     <ImageView
-        android:src="@drawable/khoc"
-        android:layout_width="400dp"
+        android:src="@drawable/cry"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
@@ -22,8 +25,10 @@
         android:id="@+id/tvdapan"
         android:background="#F44336"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:text="Đáp án là: "
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:textAlignment="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

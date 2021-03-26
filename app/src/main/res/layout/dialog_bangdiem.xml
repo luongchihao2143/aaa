@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@drawable/backgrounddialog"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Khi bạn trả lời đúng các câu hỏi, chức danh của bạn sẽ phụ thuộc vào bảng sau đây: "
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/bangdiem"
+        android:layout_margin="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+
+        <TextView
+            android:text="Câu 5: Tập sự Bigcoin"
+            style="@style/tv"/>
+
+        <TextView
+            android:text="Câu 10: Thanh niên Bigcoin"
+            style="@style/tv"/>
+
+        <TextView
+            android:text="Câu 15: Lão làng Bigcoin"
+            style="@style/tv"/>
+
+        <TextView
+            android:text="Câu 20: Triệu phú Bigcoin"
+            style="@style/tv"/>
+
+        <TextView
+            android:text="Câu 25: Tỷ phú Bigcoin"
+            style="@style/tv"/>
+
+        <TextView
+            android:text="Câu 30: Ông trùm Bigcoin"
+            style="@style/tv"/>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnok"
+        android:text="xác nhận"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>
