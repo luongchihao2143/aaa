@@ -10,22 +10,24 @@
 
     <TextView
         android:id="@+id/tvusername"
-        android:text="Bạn được: "
+        android:text="Bạn đào được: "
         android:textSize="50dp"
-        android:textColor="#E91E63"
         android:textAlignment="center"
-        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/tvdiem"
         android:text="1000 điểm"
-        android:textSize="50dp"
+        android:textSize="40dp"
         android:textAlignment="center"
         android:textStyle="bold"
-        android:textColor="#E91E63"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/ivkq"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView

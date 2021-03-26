@@ -42,7 +42,6 @@ public class QuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         anhxa();
-        themdulieufirebase();
         doidulieulist();
         random = new Random();
 //        int stt =  random.nextInt(list.size());
@@ -226,18 +225,6 @@ public class QuestionActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void themdulieufirebase(){
-        mData = FirebaseDatabase.getInstance().getReference();
-        Question question = new Question(2, "1MB(Mega byte) bằng:", "1024GB", "1024KB", "1000KB", "1000B","1024KB");
-        mData.child("Question2").setValue(question);
-
-        question = new Question(3, "Để cài đặt thêm các bộ Font trong môi trường windows, ta dùng chức năng: ", "Destop của Control Panel", "Regional Setting của Control Panel", "System của Control Panel", "Font  của Control Panel","Font  của Control Panel");
-        mData.child("Question3").setValue(question);
-
-        question = new Question(4, "Có thể hồi phục (restore) các tập tin bị xoá sau khi nhấn phím Delete bằng cách: ", "Mở Recycle Bin", "Mở Internet Explorer", "Mở My Computer", "Mở My Documents","Mở Recycle Bin");
-        mData.child("Question4").setValue(question);
-
-    }
 
         public void openDialog(){
             Dialog dialog = new Dialog(QuestionActivity.this);
