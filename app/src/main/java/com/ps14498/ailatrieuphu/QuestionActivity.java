@@ -24,12 +24,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.ps14498.ailatrieuphu.Model.Question;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
 public class QuestionActivity extends AppCompatActivity {
     Button btna, btnb, btnc, btnd, btntieptuc, btnchoilai;
-    TextView tvstt, tvcauhoi, tvdapan;
+    TextView tvstt, tvcauhoi, tvdapan, cau5, cau10, cau15, cau20, cau25, cau30;
     ArrayList<Question> list;
     int idcauhoi = 0;
     Random random;
@@ -37,11 +38,13 @@ public class QuestionActivity extends AppCompatActivity {
     String []question = {"Question","Question2", "Question3", "Question4"};
     Button btnxn;
     ImageView ivchucdanh;
+    int diem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         anhxa();
+        themdulieufirebase();
         doidulieulist();
         random = new Random();
 //        int stt =  random.nextInt(list.size());
@@ -72,13 +75,20 @@ public class QuestionActivity extends AppCompatActivity {
 
         list.add(new Question(1, "TP.Hồ Chí Minh ở miền nào Việt Nam", "Bắc", "Trung", "Nam", "Không có đáp án", "Nam"));
 
-        for(int i=0;i<question.length;i++) {
-            mData = FirebaseDatabase.getInstance().getReference(question[i]);
+        for(int i=1;i<50;i++) {
+            mData = FirebaseDatabase.getInstance().getReference("Question"+i);
             mData.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists())
                     {
+                        //
+////                        Iterator<DataSnapshot> iterator = snapshot.getChildren().iterator();
+////                        while (iterator.hasNext())
+////                        {
+////                            iterator.next().getKey();
+//                            }
+                        //
                         Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
                         String cauhoi = (String) map.get("cauhoi");
                         int id = Integer.parseInt(String.valueOf(map.get("id")));
@@ -89,8 +99,6 @@ public class QuestionActivity extends AppCompatActivity {
                         String d = (String) map.get("d");
                         list.add(new Question(id, cauhoi, a, b, c, d, ans));
                     }
-                    else Toast.makeText(QuestionActivity.this, "Không có câu hỏi để hiện", Toast.LENGTH_SHORT).show();
-
 
                 }
 
@@ -214,22 +222,72 @@ public class QuestionActivity extends AppCompatActivity {
     public void ketqua(Question questions){
         Intent intent = getIntent();
         String ten =intent.getStringExtra("ten");
-        Log.d("ten", ten);
-        Toast.makeText(QuestionActivity.this, list.size()+"", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(QuestionActivity.this, KetQuaActitivy.class);
-        Log.d("số câu hỏi", idcauhoi+"");
-        int diem = (idcauhoi)*10;
+         diem = (idcauhoi)*10;
         i.putExtra("diem", diem+"");
         i.putExtra("ten", ten+"");
         Log.d("Số câu hiện tại", diem+"");
         startActivity(i);
     }
 
+    public void themdulieufirebase(){
+        mData = FirebaseDatabase.getInstance().getReference();
+        Question question = new Question(2, "1MB(Mega byte) bằng:", "1024GB", "1024KB", "1000KB", "1000B","1024KB");
+        mData.child("Question2").setValue(question);
+
+        question = new Question(3, "Để cài đặt thêm các bộ Font trong môi trường windows, ta dùng chức năng: ", "Destop của Control Panel", "Regional Setting của Control Panel", "System của Control Panel", "Font  của Control Panel","Font  của Control Panel");
+        mData.child("Question3").setValue(question);
+
+        question = new Question(4, "Có thể hồi phục (restore) các tập tin bị xoá sau khi nhấn phím Delete bằng cách: ", "Mở Recycle Bin", "Mở Internet Explorer", "Mở My Computer", "Mở My Documents","Mở Recycle Bin");
+        mData.child("Question4").setValue(question);
+
+        question = new Question(5, "Đặc điểm chính của Virus máy tính là: ", "Phá hoại", "Lây lan", "Tự nhân bản", "Cả 3 câu A B C đều đúng","Cả 3 câu A B C đều đúng");
+        mData.child("Question5").setValue(question);
+
+        question = new Question(6, "Để chọn cửa sổ của chương trình cần làm việc trong Windows ta chọn", "Nhấn chọn biểu tượng chương trình trên thanh Taskbar", "Nhấn giữ phím Alt và gõ phím Tab cho đến khi chọn được chương trình", "(A) và (B) đúng", "(A) và (B) sai","(A) và (B) đúng");
+        mData.child("Question6").setValue(question);
+
+        question = new Question(7, "Để tạo biểu tượng (Shotcut) của chương trình lên màn hình Desktop, bấm chuột phải vào tập tin cần tạo shortcut và chọn:", "New/Folder", "Creat Shortcut", "Mở My Computer", "Cả (B) và (C) đều đúng","Creat Shortcut");
+        mData.child("Question7").setValue(question);
+
+        question = new Question(50, "Chương trình Windows Explore dùng để:", "Quản lý văn bản", "Quản lý thư mục ", "Quản lý tập tin, thư mục", "Chọn nền văn bản","Quản lý tập tin, thư mục");
+        mData.child("Question50").setValue(question);
+
+        question = new Question(49, "Để xoá ký tự đứng trước (con trỏ) điểm nháy, ta bấm phím:", "Page Up", "Page Down", "Delete", "Backspace","Backspace");
+        mData.child("Question49").setValue(question);
+
+        question = new Question(48, "Muốn gỡ bỏ một chương trình đã cài đặt vào trong máy. Sau khi vào Start/Settings/Control panel, ta thực hiện như sau: ","Mở File/Remove Program, chọn chương trình cần gỡ bỏ, nhấn nút Remove", "Mở New/ Accessories, chọn chương trình cần gỡ bỏ, nhấn Remove", "Mở Program/Accessories, chọn chương trình cần gỡ bỏ, nhấn nút emove",
+                "Mở Add or Remove program, chọn chương trình cần gỡ bỏ, nhấn nút Remove",
+                "Mở Add or Remove program, chọn chương trình cần gỡ bỏ, nhấn nút Remove");
+        mData.child("Question48").setValue(question);
+
+        question = new Question(47, "Để thực thi một chương trình trong Windows ta làm như sau:", "Nháy kép chuột trái vào File thực thi", "Bấm chuột phải vào File thực thi, chọn Open", "Nháy đơn chuột trái vào File thực thi, bấm phím Enter", "Cả 3 cách trên đều đúng","Cả 3 cách trên đều đúng");
+        mData.child("Question47").setValue(question);
+
+        question = new Question(46, "Để đánh dấu chọn một cách không liên tục các tập tin hay thư mục trong Windows, trong khi nhấn chuột trái (Left Click) và ta cần giữ phím:", "Shift", "Ctrl", "Alt", "Insert","Ctrl");
+        mData.child("Question46").setValue(question);
+
+
+
+
+    }
 
         public void openDialog(){
             Dialog dialog = new Dialog(QuestionActivity.this);
             dialog.setContentView(R.layout.dialog_bangdiem);
             btnxn = dialog.findViewById(R.id.btnok);
+            cau5 = dialog.findViewById(R.id.cau5);
+            cau10 = dialog.findViewById(R.id.cau10);
+            cau15 = dialog.findViewById(R.id.cau15);
+            cau20 = dialog.findViewById(R.id.cau20);
+            cau25 = dialog.findViewById(R.id.cau25);
+            cau30 = dialog.findViewById(R.id.cau30);
+            if (diem<=50) cau5.setTextColor(Color.parseColor("#FFEB3B"));
+            else if (diem<=100) cau10.setTextColor(Color.parseColor("#FFEB3B"));
+            else if (diem<=150) cau15.setTextColor(Color.parseColor("#FFEB3B"));
+            else if (diem<=200) cau20.setTextColor(Color.parseColor("#FFEB3B"));
+            else if (diem<=250) cau25.setTextColor(Color.parseColor("#FFEB3B"));
+            else                cau30.setTextColor(Color.parseColor("#FFEB3B"));
             btnxn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

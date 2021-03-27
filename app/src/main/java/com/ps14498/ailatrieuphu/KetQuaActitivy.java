@@ -1,5 +1,6 @@
 package com.ps14498.ailatrieuphu;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,6 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ps14498.ailatrieuphu.Model.User;
 
 import java.util.ArrayList;
@@ -21,6 +27,7 @@ public class KetQuaActitivy extends AppCompatActivity {
     TextView tvdiem, tvusername, tvchucdanh;
     String chucdanh = null;
     ImageView ivkq;
+    DatabaseReference mData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,14 +59,15 @@ public class KetQuaActitivy extends AppCompatActivity {
 
         String ten = i.getStringExtra("ten");
         Log.d("ten2", ten+"");
-        tvusername.setText(ten+" đạt");
+        tvusername.setText(ten+" đào được: ");
         if (Integer.parseInt(diem)<=50)  chucdanh = "Tập sự Bigcoin";
         else if (Integer.parseInt(diem)<=100) chucdanh = "Thanh niên Bigcoin";
         else if (Integer.parseInt(diem)<=150) chucdanh = "Lão làng Bigcoin";
         else if (Integer.parseInt(diem)<=200) chucdanh = "Triệu phú Bigcoin";
         else if (Integer.parseInt(diem)<=250) chucdanh = "Tỷ phú Bigcoin";
         else chucdanh = "Ông trùm Bigcoin";
-
+        String cap = chucdanh;
+        adduserfirebase(ten, Integer.parseInt(diem), cap);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -79,4 +87,44 @@ public class KetQuaActitivy extends AppCompatActivity {
 
 
     }
+
+    public void adduserfirebase(String ten, Integer diem, String cap) {
+        User user = new User(ten, cap, diem);
+        mData = FirebaseDatabase.getInstance().getReference();
+        mData.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists() && !snapshot.hasChild("User"+ten))
+                {
+                   mData.child("User"+ten).setValue(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        mData.child("User"+ten).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("diem"))
+                {
+                    String diemCu = snapshot.child("diem").getValue().toString();
+                    if(Integer.parseInt(diemCu) < diem)
+                    {
+                        mData.child("User"+ten).child("diem").setValue(diem);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
 }

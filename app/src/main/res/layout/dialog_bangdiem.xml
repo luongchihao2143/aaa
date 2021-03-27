@@ -23,26 +23,32 @@
         android:layout_height="400dp">
 
         <TextView
+            android:id="@+id/cau5"
             android:text="Câu 5: Tập sự Bigcoin"
             style="@style/tv"/>
 
         <TextView
+            android:id="@+id/cau10"
             android:text="Câu 10: Thanh niên Bigcoin"
             style="@style/tv"/>
 
         <TextView
+            android:id="@+id/cau15"
             android:text="Câu 15: Lão làng Bigcoin"
             style="@style/tv"/>
 
         <TextView
+            android:id="@+id/cau20"
             android:text="Câu 20: Triệu phú Bigcoin"
             style="@style/tv"/>
 
         <TextView
+            android:id="@+id/cau25"
             android:text="Câu 25: Tỷ phú Bigcoin"
             style="@style/tv"/>
 
         <TextView
+            android:id="@+id/cau30"
             android:text="Câu 30: Ông trùm Bigcoin"
             style="@style/tv"/>
     </LinearLayout>
